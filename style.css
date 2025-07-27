@@ -81,20 +81,16 @@ body {
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
     overflow: hidden;
-    transition:
-        background-color 0.3s,
-        color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
+
 }
 
 #app {
     display: flex;
-    height: 100%;
+    height: 100vh;
 }
 
-th,
-td {
-    padding: 0.2rem;
-}
+
 
 /* --- Sidebar --- */
 aside {
@@ -300,7 +296,7 @@ main {
     border: none;
     cursor: pointer;
     transition: color 0.2s;
-    font-size: 1.2rem;
+    font-size: 1rem;
     position: relative;
     color: var(--kolor-text-secondary);
     padding: 1rem;
@@ -322,7 +318,7 @@ main {
     color: var(--kolor-text);
     border: 1px solid var(--kolor-border);
     padding: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.8rem !important;
     font-family: inherit;
     outline: none;
     scrollbar-width: none;
@@ -359,12 +355,14 @@ main {
     padding: 0.4rem 0.8rem;
     font-size: 0.9rem;
     font-family: inherit;
-    line-height: 1.2;
+
     border-radius: var(--border-radius);
     transition: all 0.2s ease-in-out;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    height: 32px;
+    justify-content: center;
 }
 
 .spreadsheet-btn:hover {
@@ -383,10 +381,36 @@ main {
     border-color: var(--kolor-primary);
 }
 
+#font-size-selector,
 .color-picker-wrapper {
     position: relative;
-    width: 28px;
-    height: 28px;
+    width: 38px;
+    height: 32px;
+    padding: 0.4rem 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--kolor-surface);
+    border: 1px solid var(--kolor-border);
+    font-size: 0.9rem;
+    font-family: inherit;
+    height: 32px;
+}
+
+#font-size-selector {
+    width: 60px;
+}
+
+
+
+#font-size-selector:focus {
+    color: var(--kolor-text);
+    border-color: var(--kolor-primary);
+    outline: none;
 }
 
 .color-picker-wrapper input[type="color"] {
@@ -401,7 +425,6 @@ main {
 
 .color-picker-wrapper .icon {
     color: var(--kolor-text);
-    border: 1px solid var(--kolor-border);
     padding: 4px;
     pointer-events: none;
 }
@@ -428,8 +451,8 @@ main {
 #spreadsheet-table td {
     border: 1px solid var(--kolor-border);
     outline: none;
-    padding: 0.5rem 0.25rem;
     text-align: left;
+    padding: 0rem 0.5rem 0rem 0.5rem;
 }
 
 #spreadsheet-table thead th,
@@ -572,7 +595,7 @@ body[data-theme="dark"] #loading-overlay {
 }
 
 .modal-content h3 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     color: var(--kolor-text);
