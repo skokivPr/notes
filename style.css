@@ -209,6 +209,7 @@ main {
     transition:
         background-color 0.3s,
         border-color 0.3s;
+    height: 48.4px;
 }
 
 #note-title-input,
