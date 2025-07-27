@@ -7,6 +7,7 @@ const addRowBtn = document.getElementById('add-row-btn');
 const addColBtn = document.getElementById('add-col-btn');
 const delRowBtn = document.getElementById('del-row-btn');
 const delColBtn = document.getElementById('del-col-btn');
+const clearTableBtn = document.getElementById('clear-table-btn');
 const addNoteBtn = document.getElementById('add-note-btn');
 const deleteNoteBtn = document.getElementById('delete-note-btn');
 const noteTitleInput = document.getElementById('note-title-input');
@@ -51,10 +52,10 @@ let resizeType = null; // 'column' or 'row'
 // --- Language and Translations ---
 const translations = {
     pl: {
-        my_notes: 'Moje Notatki', add_note_title: 'Dodaj nową notatkę', storage_info: 'Zapisano lokalnie', note_title_placeholder: 'Wprowadź tytuł notatki...', switch_theme_title: 'Zmień motyw', switch_lang_title: 'Zmień język', switch_view_notes_title: 'Pokaż arkusz', switch_view_sheet_title: 'Pokaż edytor', delete_note_title: 'Usuń bieżącą notatkę', import_notes_title: 'Importuj notatki', export_notes_title: 'Eksportuj notatki', loading: 'Ładowanie...', delete_confirm_title: 'Potwierdź usunięcie', delete_confirm_body: 'Czy na pewno chcesz usunąć tę notatkę? Tej operacji nie można cofnąć.', cancel: 'Anuluj', delete: 'Usuń', untitled_note: 'Notatka bez tytułu', no_content: 'Brak treści', select_note_prompt: '// Wybierz notatkę lub utwórz nową.', welcome_message: `// Witaj w Notatkach Monaco!\n// Kliknij ikonę '+', aby utworzyć nową notatkę.\n// Twoje notatki będą zapisywane automatycznie.`, init_failed: 'Nie udało się zainicjować aplikacji. Sprawdź konsolę.', add_row_title: 'Dodaj Wiersz', add_col_title: 'Dodaj Kolumnę', del_row_title: 'Usuń Ostatni Wiersz', del_col_title: 'Usuń Ostatnią Kolumnę', row_label: 'Wiersz', col_label: 'Kolumna', export_success: 'Notatki zostały wyeksportowane pomyślnie', import_success: 'Notatki zostały zaimportowane pomyślnie', import_error: 'Błąd podczas importu notatek', invalid_file: 'Nieprawidłowy plik. Wybierz plik JSON z notatkami.'
+        my_notes: 'Moje Notatki', add_note_title: 'Dodaj nową notatkę', storage_info: 'Zapisano lokalnie', note_title_placeholder: 'Wprowadź tytuł notatki...', switch_theme_title: 'Zmień motyw', switch_lang_title: 'Zmień język', switch_view_notes_title: 'Pokaż arkusz', switch_view_sheet_title: 'Pokaż edytor', delete_note_title: 'Usuń bieżącą notatkę', import_notes_title: 'Importuj notatki', export_notes_title: 'Eksportuj notatki', loading: 'Ładowanie...', delete_confirm_title: 'Potwierdź usunięcie', delete_confirm_body: 'Czy na pewno chcesz usunąć tę notatkę? Tej operacji nie można cofnąć.', cancel: 'Anuluj', delete: 'Usuń', untitled_note: 'Notatka bez tytułu', no_content: 'Brak treści', select_note_prompt: '// Wybierz notatkę lub utwórz nową.', welcome_message: `// Witaj w Notatkach Monaco!\n// Kliknij ikonę '+', aby utworzyć nową notatkę.\n// Twoje notatki będą zapisywane automatycznie.`, init_failed: 'Nie udało się zainicjować aplikacji. Sprawdź konsolę.', add_row_title: 'Dodaj Wiersz', add_col_title: 'Dodaj Kolumnę', del_row_title: 'Usuń Ostatni Wiersz', del_col_title: 'Usuń Ostatnią Kolumnę', row_label: 'Wiersz', col_label: 'Kolumna', clear_table_title: 'Usuń całą tabelę', clear_table_label: 'Usuń tabelę', clear_table_confirm: 'Czy na pewno chcesz usunąć całą tabelę? Wszystkie dane zostaną utracone.', clear_table_success: 'Tabela została wyczyszczona', export_success: 'Notatki zostały wyeksportowane pomyślnie', import_success: 'Notatki zostały zaimportowane pomyślnie', import_error: 'Błąd podczas importu notatek', invalid_file: 'Nieprawidłowy plik. Wybierz plik JSON z notatkami.'
     },
     en: {
-        my_notes: 'My Notes', add_note_title: 'Add new note', storage_info: 'Stored Locally', note_title_placeholder: 'Enter note title...', switch_theme_title: 'Switch theme', switch_lang_title: 'Switch language', switch_view_notes_title: 'Show spreadsheet', switch_view_sheet_title: 'Show editor', delete_note_title: 'Delete current note', import_notes_title: 'Import notes', export_notes_title: 'Export notes', loading: 'Loading...', delete_confirm_title: 'Confirm Deletion', delete_confirm_body: 'Are you sure you want to delete this note? This action cannot be undone.', cancel: 'Cancel', delete: 'Delete', untitled_note: 'Untitled Note', no_content: 'No content', select_note_prompt: '// Select a note or create a new one.', welcome_message: `// Welcome to Monaco Notes!\n// Click the '+' icon to create a new note.\n// Your notes will be saved automatically.`, init_failed: 'Failed to initialize application. Check console for details.', add_row_title: 'Add Row', add_col_title: 'Add Column', del_row_title: 'Delete Last Row', del_col_title: 'Delete Last Column', row_label: 'Row', col_label: 'Column', export_success: 'Notes exported successfully', import_success: 'Notes imported successfully', import_error: 'Error importing notes', invalid_file: 'Invalid file. Please select a JSON file with notes.'
+        my_notes: 'My Notes', add_note_title: 'Add new note', storage_info: 'Stored Locally', note_title_placeholder: 'Enter note title...', switch_theme_title: 'Switch theme', switch_lang_title: 'Switch language', switch_view_notes_title: 'Show spreadsheet', switch_view_sheet_title: 'Show editor', delete_note_title: 'Delete current note', import_notes_title: 'Import notes', export_notes_title: 'Export notes', loading: 'Loading...', delete_confirm_title: 'Confirm Deletion', delete_confirm_body: 'Are you sure you want to delete this note? This action cannot be undone.', cancel: 'Cancel', delete: 'Delete', untitled_note: 'Untitled Note', no_content: 'No content', select_note_prompt: '// Select a note or create a new one.', welcome_message: `// Welcome to Monaco Notes!\n// Click the '+' icon to create a new note.\n// Your notes will be saved automatically.`, init_failed: 'Failed to initialize application. Check console for details.', add_row_title: 'Add Row', add_col_title: 'Add Column', del_row_title: 'Delete Last Row', del_col_title: 'Delete Last Column', row_label: 'Row', col_label: 'Column', clear_table_title: 'Clear entire table', clear_table_label: 'Clear table', clear_table_confirm: 'Are you sure you want to clear the entire table? All data will be lost.', clear_table_success: 'Table has been cleared', export_success: 'Notes exported successfully', import_success: 'Notes imported successfully', import_error: 'Error importing notes', invalid_file: 'Invalid file. Please select a JSON file with notes.'
     }
 };
 
@@ -347,6 +348,35 @@ function deleteSpreadsheetColumn() {
         renderSpreadsheet();
         saveNotesToLocalStorage();
     }
+}
+
+function clearSpreadsheet() {
+    if (!currentNoteId) return;
+
+    // Pokaż dialog potwierdzenia
+    if (!confirm(translations[currentLanguage].clear_table_confirm)) {
+        return;
+    }
+
+    // Wyczyść zaznaczenie
+    clearSelection();
+
+    // Reset tabeli do stanu początkowego (2x2 puste komórki)
+    const defaultSheetData = {
+        data: [
+            [createCellData(), createCellData()],
+            [createCellData(), createCellData()]
+        ],
+        columnWidths: [120, 120],
+        rowHeights: [30, 30]
+    };
+
+    notesCache[currentNoteId].sheetData = defaultSheetData;
+    renderSpreadsheet();
+    saveNotesToLocalStorage();
+
+    // Pokaż komunikat o powodzeniu
+    showStatusMessage(translations[currentLanguage].clear_table_success, 'success');
 }
 
 function setCellStyle(styleProp, value) {
@@ -666,10 +696,14 @@ function confirmDeleteNote() {
 function toggleView() {
     isEditorViewActive = !isEditorViewActive;
     const icon = toggleViewBtn.querySelector('i');
+    const languageSelectorWrapper = document.querySelector('.language-selector-wrapper');
+
     editorContainer.style.display = isEditorViewActive ? 'block' : 'none';
     spreadsheetContainer.style.display = isEditorViewActive ? 'none' : 'block';
     noteTitleInput.style.visibility = isEditorViewActive ? 'visible' : 'hidden';
     editorLangSelector.style.visibility = isEditorViewActive ? 'visible' : 'hidden';
+    languageSelectorWrapper.style.display = isEditorViewActive ? 'flex' : 'none';
+
     if (isEditorViewActive) {
         icon.classList.replace('fa-file-alt', 'fa-file-excel');
         toggleViewBtn.setAttribute('data-lang-key', 'switch_view_notes_title');
@@ -884,6 +918,7 @@ addRowBtn.addEventListener('click', addSpreadsheetRow);
 addColBtn.addEventListener('click', addSpreadsheetColumn);
 delRowBtn.addEventListener('click', deleteSpreadsheetRow);
 delColBtn.addEventListener('click', deleteSpreadsheetColumn);
+clearTableBtn.addEventListener('click', clearSpreadsheet);
 spreadsheetTable.addEventListener('input', (e) => {
     if (e.target.tagName === 'TD') {
         clearTimeout(saveTimeout);
