@@ -1,0 +1,661 @@
+/* ------------------- */
+/* ZMIENNE I RESET CSS */
+/* ------------------- */
+:root {
+    --kolor-primary: #ff6600;
+    --kolor-primary-rgb: 255, 102, 0;
+    --border-rgb: 0, 0, 0;
+    /* Jasny, energiczny pomarańczowy */
+    --kolor-primary-hover: #e65c00;
+    --kolor-background: #f0f2f5;
+    /* Bardzo jasne szare tło */
+    --kolor-surface: #ffffff;
+    /* Biały dla kart/kontenerów */
+    --kolor-text: #2d3748;
+    /* Ciemnoszary tekst */
+    --kolor-text-secondary: #718096;
+    /* Jaśniejszy szary dla ikon/podpisów */
+    --kolor-border: #e2e8f0;
+    /* Subtelna linia graniczna */
+    --kolor-danger: #e53e3e;
+    --kolor-danger-rgb: 229, 62, 62;
+    /* Czerwony dla akcji usuwania */
+    --border-radius: 0rem;
+    /* Ostre krawędzie */
+    --box-shadow: none;
+    /* Płaski design, bez cieni */
+}
+
+body[data-theme="dark"] {
+    --kolor-background: #222;
+    --kolor-surface: #111;
+    --kolor-text: #e2e8f0;
+    --kolor-text-secondary: #a0aec0;
+    --kolor-border: #333;
+    --kolor-primary-rgb: 255, 102, 0;
+    --border-rgb: 255, 255, 255;
+    --kolor-danger-rgb: 229, 62, 62;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: var(--kolor-primary) var(--kolor-background);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 3px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--kolor-background);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--kolor-primary);
+    border-radius: 3px;
+    border: 3px none var(--kolor-background);
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: "Roboto Mono", monospace;
+    line-height: 1.6;
+    background-color: var(--kolor-background);
+    color: var(--kolor-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+    overflow: hidden;
+    transition:
+        background-color 0.3s,
+        color 0.3s;
+}
+
+#app {
+    display: flex;
+    height: 100%;
+}
+
+th,
+td {
+    padding: 0.2rem;
+}
+
+/* --- Sidebar --- */
+aside {
+    width: 25%;
+    max-width: 250px;
+    min-width: 250px;
+    background-color: var(--kolor-surface);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-right: 1px solid var(--kolor-border);
+    box-shadow: var(--box-shadow);
+    transition:
+        background-color 0.3s,
+        border-color 0.3s;
+}
+
+.sidebar-header {
+    padding: 1rem 0.5rem;
+    border-bottom: 1px solid var(--kolor-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.3s;
+    height: 48.4px;
+}
+
+.sidebar-header h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+    color: var(--kolor-text);
+}
+
+.separator {
+    height: 20px;
+    width: 2px;
+    background-color: rgba(var(--border-rgb), 0.5) !important;
+    margin: 0.2rem 0;
+}
+
+#notes-list {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.note-item {
+    padding: 0.1rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.15s;
+    border-bottom: 1px solid var(--kolor-border);
+}
+
+.note-item:hover {
+    background-color: var(--kolor-background);
+}
+
+.note-item.active {
+    background-color: rgba(var(--kolor-primary-rgb), 0.1);
+    color: var(--kolor-primary);
+    border-color: var(--kolor-primary);
+}
+
+.note-item.active h3,
+.note-item.active p {
+    color: var(--kolor-primary);
+}
+
+.note-item h3 {
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    color: var(--kolor-text);
+}
+
+.note-item p {
+    font-size: 0.8rem;
+    color: var(--kolor-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+}
+
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--kolor-border);
+    font-size: 0.75rem;
+    color: var(--kolor-text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: border-color 0.3s;
+}
+
+/* --- Main Content --- */
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#editor-toolbar {
+    background-color: var(--kolor-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    transition:
+        background-color 0.3s,
+        border-color 0.3s;
+}
+
+#note-title-input,
+#editor-lang-selector {
+    display: block;
+    padding: 0.1rem 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--kolor-text);
+    background-color: var(--kolor-background);
+    border: 0;
+    border-radius: var(--border-radius);
+    transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out,
+        background-color 0.3s;
+    height: 46.3px;
+}
+
+.language-selector-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: var(--kolor-background);
+    border: 1px solid var(--kolor-border);
+    border-radius: var(--border-radius);
+    transition: border-color 0.15s ease-in-out, background-color 0.3s;
+}
+
+
+
+.language-icon {
+    padding: 0.5rem 1rem;
+    color: var(--kolor-text-secondary);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.language-selector-wrapper select {
+    border: none;
+    background: transparent;
+    padding: 0.75rem 1rem 0.75rem 0.5rem;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    width: 100%;
+    min-width: 140px;
+    scrollbar-width: none;
+}
+
+.language-selector-wrapper select option {
+    scrollbar-width: none;
+    background-color: var(--kolor-surface);
+    color: var(--kolor-text);
+    border: 1px solid var(--kolor-border);
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+}
+
+
+#note-title-input {
+    flex-grow: 1;
+}
+
+#note-title-input:focus,
+#editor-lang-selector:focus {
+    color: var(--kolor-text);
+    background-color: var(--kolor-surface);
+    border-color: var(--kolor-primary);
+    outline: 0;
+}
+
+.toolbar-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toolbar-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    font-size: 1.2rem;
+    position: relative;
+    color: var(--kolor-text-secondary);
+    padding: 1rem;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toolbar-button:hover {
+    color: var(--kolor-primary);
+    background-color: rgba(var(--kolor-primary-rgb), 0.1);
+}
+
+
+.option {
+    background-color: var(--kolor-surface);
+    color: var(--kolor-text);
+    border: 1px solid var(--kolor-border);
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    scrollbar-width: none;
+}
+
+#editor-container,
+#spreadsheet-container {
+    flex-grow: 1;
+    height: calc(100% - 56px);
+    overflow: auto;
+}
+
+#spreadsheet-container {
+    display: none;
+    padding: 1rem;
+}
+
+#spreadsheet-controls {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.spreadsheet-btn {
+    font-weight: 500;
+    color: var(--kolor-text);
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--kolor-surface);
+    border: 1px solid var(--kolor-border);
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    line-height: 1.2;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.spreadsheet-btn:hover {
+    color: var(--kolor-primary);
+    border-color: var(--kolor-primary);
+}
+
+.spreadsheet-btn.danger:hover {
+    color: var(--kolor-danger);
+    border-color: var(--kolor-danger);
+}
+
+.spreadsheet-btn.active {
+    background-color: var(--kolor-primary);
+    color: white;
+    border-color: var(--kolor-primary);
+}
+
+.color-picker-wrapper {
+    position: relative;
+    width: 28px;
+    height: 28px;
+}
+
+.color-picker-wrapper input[type="color"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.color-picker-wrapper .icon {
+    color: var(--kolor-text);
+    border: 1px solid var(--kolor-border);
+    padding: 4px;
+    pointer-events: none;
+}
+
+#font-size-selector {
+    background-color: var(--kolor-surface);
+    color: var(--kolor-text);
+    border: 1px solid var(--kolor-border);
+    padding: 0.1rem;
+    font-family: inherit;
+}
+
+#spreadsheet-table-wrapper {
+    overflow: auto;
+}
+
+#spreadsheet-table {
+    width: auto;
+    border-collapse: collapse;
+
+}
+
+#spreadsheet-table th,
+#spreadsheet-table td {
+    border: 1px solid var(--kolor-border);
+    outline: none;
+    padding: 0.5rem 0.25rem;
+    text-align: left;
+}
+
+#spreadsheet-table thead th,
+#spreadsheet-table tbody th {
+    background-color: var(--kolor-background);
+    font-weight: 700;
+    text-align: center;
+}
+
+#spreadsheet-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    min-width: 60px;
+    max-width: 320px;
+}
+
+#spreadsheet-table tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+}
+
+#spreadsheet-table td {
+    background-color: var(--kolor-surface);
+}
+
+#spreadsheet-table td.selected {
+    outline: 1px solid rgb(var(--kolor-primary-rgb), 1);
+    outline-offset: -1px;
+
+}
+
+/* --- Column/Row Selection and Resize Styles --- */
+#spreadsheet-table th.selected-header {
+    background-color: rgba(var(--kolor-primary-rgb), 0.9) !important;
+    color: rgb(255, 255, 255);
+    outline: 1px solid rgba(var(--kolor-primary-rgb), 0.5);
+    outline-offset: -1.12px;
+}
+
+#spreadsheet-table td.selected-column {
+    background-color: rgba(var(--kolor-primary-rgb), 0.1) !important;
+    outline: 1px solid rgba(var(--kolor-primary-rgb), 0.5);
+    outline-offset: -1.12px;
+}
+
+#spreadsheet-table td.selected-row {
+    background-color: rgba(var(--kolor-primary-rgb), 0.1) !important;
+    outline: 1px solid rgba(var(--kolor-primary-rgb), 0.5);
+    outline-offset: -1.12px;
+}
+
+.column-resize-handle {
+    z-index: 10;
+}
+
+.column-resize-handle:hover {
+    background-color: var(--kolor-primary) !important;
+}
+
+.row-resize-handle {
+    z-index: 10;
+}
+
+.row-resize-handle:hover {
+    background-color: var(--kolor-primary) !important;
+}
+
+/* Prevent text selection during resize */
+body.resizing {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Ensure table headers maintain their size */
+#spreadsheet-table thead th {
+    box-sizing: border-box;
+}
+
+#spreadsheet-table tbody th {
+    box-sizing: border-box;
+}
+
+/* --- Overlays & Modals --- */
+#loading-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+body[data-theme="dark"] #loading-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: var(--kolor-primary);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#custom-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.modal-content {
+    background-color: var(--kolor-surface);
+    border: 1px solid var(--kolor-border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 34rem;
+    margin: 0 auto;
+}
+
+.modal-content h3 {
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--kolor-text);
+}
+
+.modal-content p {
+    color: var(--kolor-text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.modal-button {
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: var(--border-radius);
+    transition:
+        all 0.2s ease-in-out;
+}
+
+#modal-cancel-btn {
+    background-color: var(--kolor-surface);
+    border-color: var(--kolor-border);
+    color: var(--kolor-text-secondary);
+    width: 8rem;
+    height: 3rem;
+}
+
+#modal-cancel-btn:hover {
+    background-color: var(--kolor-background);
+    border-color: var(--kolor-border);
+}
+
+#modal-confirm-btn {
+    background-color: var(--kolor-surface);
+    border-color: var(--kolor-border);
+    color: var(--kolor-text);
+    width: 8rem;
+    height: 3rem;
+}
+
+#modal-confirm-btn:hover {
+    color: var(--kolor-danger);
+    background-color: rgba(var(--kolor-danger-rgb), 0.1);
+    border-color: var(--kolor-danger);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--kolor-background);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #ccc;
+}
+
+body[data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #4a5568;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
+}
+
+body[data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #718096;
+}
